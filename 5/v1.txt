@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	var n, q int
+	fmt.Scan(&n, &q)
+	surnames := make([]string, n)
+	surnamePrefix := make([]string, q)
+	number := make([]int, q)
+	//------------------------------
+	for i := range surnames {
+		fmt.Scan(&surnames[i])
+	}
+	for i := range surnamePrefix {
+		fmt.Scan(&number[i])
+		fmt.Scan(&surnamePrefix[i])
+	}
+	//------------------------------
+	for i, prefix := range surnamePrefix {
+		hasPrefix := make([]string, 0)
+		l := len(prefix)
+		for _, name := range surnames {
+			if len(name) >= l {
+				if name[:l] == prefix {
+					hasPrefix = append(hasPrefix, name)
+				}
+			}
+		}
+
+		if len(hasPrefix) < number[i] {
+			fmt.Println(-1)
+			continue
+		}
+
+		sort.Strings(hasPrefix)
+		for j := range surnames {
+			if surnames[j] == hasPrefix[number[i]-1] {
+				fmt.Println(j + 1)
+				break
+			}
+		}
+	}
+}
